@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+	<title>Hello World</title>
+	<meta http-equiv="Content-Security-Policy" 
+          content="default-src *; 
+                   style-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css" href="css/material.min.css" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+
+ var value = sessionStorage.getItem("MyId");
+  
+ jQuery.ajax({
+type: 'POST',
+dataType: 'json',
+url: 'http://spindia.net/phone_gap/view.php',
+data: {value:value},
+success: function(data){
+ 
+jQuery('.user-list').html(data[0].data);
+console.log(data[0].mydeb);
+if(data[0].mydeb==null ){
+jQuery('.ttotal').text('$0');}else{jQuery('.ttotal').text("$"+data[0].mydeb);}
+if(data[0].amount==null){jQuery('.total').text("$0");}else{ jQuery('.total').text("$"+data[0].amount); }
+if(data[0].theirdeb==null){jQuery('.mtotal').text("$0");} else{jQuery('.mtotal').text("$"+data[0].amount);}
+
+
+ 
+ //console.log(data[0].amount);
+ }
+});
+
+ jQuery('.sel-deb').click(function(){
+ var debt=jQuery(this).attr('data');
+sessionStorage.setItem("Userid", debt);
+ jQuery.ajax({
+type: 'POST',
+dataType: 'json',
+url: 'http://spindia.net/phone_gap/view.php',
+data: {value:value,debt:debt},
+success: function(data){
+ 
+jQuery('.user-list').html(data[0].data);
+ console.log(data[0].msg[0]['name']);
+ }
+});
+});
+jQuery('html').on('click','.user-id',function(){
+var user_id=jQuery(this).attr('dataid');
+//console.log(user_id)
+var user=sessionStorage.setItem("Userid",user_id);
+var userId = sessionStorage.getItem("Userid");
+//console.log(userId);
+window.location.href = "user.html";
+});
+});
+	</script>
+</head>
+<body>
+ <div class="dept container">	
+ <header>
+ <div class="row">
+<div class="col-xs-5 logo">
+<img src="img/logo.png">
+</div>
+<div class="col-xs-7 right-header">
+<a href="welcome.html"  class="btn btn-ref">
+  <i class="material-icons">add</i>
+  </a>
+<button class="btn btn-ref" onclick="window.location.href=window.location.pathname">
+<i class="material-icons">autorenew</i>
+</button>
+ <button id="demo-menu-lower-right"
+        class="mdl-button mdl-js-button mdl-button--icon">
+  <i class="material-icons">more_vert</i>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+    for="demo-menu-lower-right">
+  <li class="mdl-menu__item"><a style="color:#000; text-decoration:none;" href="dept.html">All Debt</a></li>
+  <li class="mdl-menu__item"><a style="color:#000; text-decoration:none;" href="index.html">Logout</a></li>
+  <li disabled class="mdl-menu__item">Disabled Action</li>
+  <li class="mdl-menu__item">Yet Another Action</li>
+</ul>
+</div>
+</div>
+</header>
+<section class="balnce-sec">
+   <ul class="balance-ul">
+      <li><span>Borrowed</span><i class="ttotal" style="color:#3E983E"></i></li>
+      <li><span>Lent</span><i class="mtotal" style="color:#f00"></i></li>
+   </ul>
+</section>
+<div class="clearfix"></div>
+<div class="content-32">
+   <ul class="user-list">
+      
+   </ul>   
+
+<section class="dept-contact">
+   <ul class="dept-contact-ul">
+      <li><i data="1" class="fa fa-home sel-deb" style="color:#3E983E"></i><span style="color:#3E983E">Their Debts</span></li>
+      <!--li><a href="contact.html"><i style="color:#000;" class="fa fa-user-circle-o" ></i><span style="color:#000;">Contacts</span></a></li-->
+      <li><i data="2" class="fa fa-home sel-deb" ></i><span>My Debts</span></li>
+   
+   </ul>
+</section>
+</div>
+<h3 style="color:#fff;" id="alert"></h3>
+
+</div>
+</div>
+	<script type="text/javascript" src="js/material.js"></script>
+</body>
+
+</html>

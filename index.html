@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Security-Policy" 
+          content="default-src *; 
+                   style-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline''unsafe-eval'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css" href="css/material.min.css" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+
+	jQuery(document).ready(function(){
+	
+	jQuery('#login').click(function(){
+	
+var email=jQuery("#email").val();
+var password=jQuery("#password").val();		
+
+if(email=='' || password==''){
+	jQuery('#alert').text("please Input Value");
+}
+else
+{
+jQuery.ajax({
+type: 'POST',
+dataType: 'json',
+url: 'http://spindia.net/phone_gap/login.php',
+data: {email:email,password:password},
+success: function(data){ //console.log(data);
+
+if(data[0].login=='true' && data[0].msg=='login success')
+{
+
+ sessionStorage.setItem("MyId", jQuery("#email").val());
+
+    var value = sessionStorage.getItem("MyId");
+	 console.log(value);
+	jQuery('#alert').text(value);
+	
+    window.location = "dept.html";
+	
+	
+}
+else if(data[0].login=='false' && data[0].msg=='email or password is wrong')
+ { jQuery('#alert').text(data[0].msg);
+ }
+ else
+ {
+ jQuery('#alert').text(data[1].login);
+ 
+ }
+}
+});
+}
+	
+	});
+	});
+	</script>
+    <title>Hello World</title>
+</head>
+<body>
+<div class="container">
+    <div class="app">	 
+<img src="img/logo.png">	
+    </div>
+<div class="main-block">
+<form class="form" id="popup-login" method="post" >
+<input id="email" class="text required form-control user-input"  name="email" value="" placeholder="Email Address" type="text">
+<input id="password" class="text required form-control password-input"  name="password" value="" placeholder="Password" type="password">
+<div class="keep-sign">
+
+
+
+<div class="clearfix"></div>
+<input id="login"  class="btn_orange btn_registration "  value="Sign In" style="" type="button"/>
+<div class="forgot_block">
+<a href="forget.html">Forgot Password? </a>
+</div>
+</div>
+<div style="text-align: center">
+<div class="text">
+<h5>Not a member ?<a href="sign-up.html"> Sign up now</a></h5></div>
+</div>
+</form>
+<h3 style="color:#fff;" id="alert"></h3>
+</div>
+</div>
+	<script type="text/javascript" src="js/material.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="telephoneNumber.js"></script>
+
+ <script type="text/javascript">
+ var telephoneNumber = cordova.require("cordova/plugin/telephonenumber");
+    telephoneNumber.get(function(result) {
+            console.log("simSerialNumber = " + result.simSerialNumber); // number sim 
+            alert("line1Number = " + result.line1Number); // telephone number (if insert sim)
+		
+        }, function() {
+            console.log("error");
+			
+        });
+
+ </script>
+ <h3 class="hell"></h3>
+</body>
+</html>

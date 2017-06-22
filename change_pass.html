@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+	<meta http-equiv="Content-Security-Policy" 
+          content="default-src *; 
+                   style-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+     <title>Hello World</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+	var url = window.location.pathname + window.location.search;
+var array = url.split('=');
+var lastsegment = array[array.length-1];
+var secsegment = array[array.length-2];
+console.log(lastsegment);
+console.log(secsegment);
+	jQuery("#change").click(function(){
+	var newpass=jQuery("#newpass").val();
+	var conpass=jQuery("#conpass").val();
+		
+if(newpass=='' || conpass=='' || lastsegment=='' || secsegment==''){
+	jQuery('#alert').text("please Input Value");
+}
+else if(newpass!=conpass){
+jQuery('#alert').text("password dosen't matched");
+}
+else
+{
+jQuery.ajax({
+type: 'POST',
+dataType: 'json',
+url: 'http://spindia.net/phone_gap/change.php',
+data: {newpass:newpass,conpass:conpass,lastsegment:lastsegment,secsegment:secsegment},
+success: function(data){ 
+if(data[0].pass=='true')
+{ jQuery('#alert').text(data[0].msg); window.location.href="index.html"; }
+else
+{ jQuery('#alert').text(data[0].msg);  }
+}
+});
+}
+});
+
+});
+	</script>
+	
+  
+	
+</head>
+
+<body>
+
+ <div class="app">	 
+<img src="img/logo.png">
+</div>
+
+<div class="main-block">
+<form id="forget-form" action="#" method="post">
+<table>
+<tr><th><label for="">New Password</label></th><td><input type="password" name="email" id="newpass" /></td></th></tr>
+<tr><th><label for="">Confirm Password</label></th><td><input type="password" name="email" id="conpass" /></td></th></tr>
+<tr><td></td><td><input type="button" value="submit" name="submit" id="change" /></td></tr>
+</table>
+</form>
+<h3 style="color:red;" id="alert"></h3>
+
+</div>
+</body>
+
+</html>

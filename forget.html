@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+	<meta http-equiv="Content-Security-Policy" 
+          content="default-src *; 
+                   style-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+     <title>Hello World</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+	jQuery("#signup").click(function(){
+	var email=jQuery("#email").val();
+		
+if(email==''){
+	jQuery('#alert').text("please Input Value");
+}
+else
+{
+jQuery.ajax({
+type: 'POST',
+dataType: 'json',
+url: 'http://spindia.net/phone_gap/forget.php',
+data: {email:email},
+success: function(data){ 
+if(data[0].email=='true')
+{
+
+jQuery('#alert').text(data[0].msg);
+
+}
+else {jQuery('#alert').text(data[1].msg); }
+}
+});
+}
+});
+});
+	</script>
+	
+  
+	
+</head>
+
+<body>
+
+ <div class="app">	 
+<img src="img/logo.png">
+</div>
+
+<div class="text-center">
+<form  id="forget-form" action="#" method="post">
+
+<p style="font-size:20px;">Find Yout Account</p> 
+<p><input  class="form-control user-input" type="email" name="email" placeholder="Enter Email" id="email" /></p>
+<input type="button" value="Search" class="btn btn-info btn_registration" name="submit" id="signup" />
+
+</form>
+<h3 style="color:red;" id="alert"></h3>
+
+</div>
+</body>
+
+</html>

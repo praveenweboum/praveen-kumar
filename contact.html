@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta http-equiv="Content-Security-Policy" 
+          content="default-src *; 
+                   style-src 'self' 'unsafe-inline' 'unsafe-eval'; 
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+<link href="css/bootstrap.min.css" rel="stylesheet" >
+<link href="css/style.css" rel="stylesheet" >
+</head>
+ <body>
+ <h2 style="font-size:50px;">Contacts List</h2>
+ <div id="mobile"></div>
+ <div id="email"></div>
+ 
+ <script src="cordova.js"></script>
+ <script type="text/javascript">
+ document.addEventListener("deviceready", init, false);
+function init() {
+  navigator.contacts.find([navigator.contacts.fieldType.displayName],gotContacts,errorHandler);
+ 
+}
+
+function errorHandler(e) {
+ console.log("errorHandler: "+e);
+}
+
+function gotContacts(c) {
+ console.log("gotContacts, number of results "+c.length);
+
+ mobileDiv = document.querySelector("#mobile");
+ emailDiv = document.querySelector("#email");
+ 
+ 
+
+ /* Retriving phoneNumbers */
+ for(var i=0, len=c.length; i<len; i++) {
+ if(c[i].phoneNumbers && c[i].phoneNumbers.length > 0) {
+ mobileDiv.innerHTML += "<p class='contact-list'>"+c[i].displayName+"<br/>"+c[i].phoneNumbers[0].value+"</p>";
+ }
+ }
+}
+ </script>
+ </body>
+</html>
